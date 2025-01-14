@@ -69,6 +69,9 @@ public class CalculateSales {
 			while((line = br.readLine()) != null) {
 				// ※ここの読み込み処理を変更してください。(処理内容1-2)
 				System.out.println(line);
+				String[] items = line.split(",");
+				branchNames.put(items[0], items[1]);
+				branchSales.put(items[0], (long)0);
 			}
 
 		} catch(IOException e) {
