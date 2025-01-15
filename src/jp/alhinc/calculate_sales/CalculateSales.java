@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CalculateSales {
@@ -26,6 +28,7 @@ public class CalculateSales {
 	 * @param コマンドライン引数
 	 */
 	public static void main(String[] args) {
+		BufferedReader br = null;
 		// 支店コードと支店名を保持するMap
 		Map<String, String> branchNames = new HashMap<>();
 		// 支店コードと売上金額を保持するMap
@@ -37,6 +40,25 @@ public class CalculateSales {
 		}
 
 		// ※ここから集計処理を作成してください。(処理内容2-1、2-2)
+		// ファイルパスを指定、格納
+		File[] files = new File("C:\\Users\\trainee0963\\売上集計課題").listFiles();
+		List<File> rcdFiles = new ArrayList<>();
+		//
+		for(int i = 0; i < files.length; i++) {
+			String fileName = files[i].getName();
+			// ファイル名が一致するかの可否、格納
+			if(fileName.matches("[0-9]{8}.rcd+")) {
+				rcdFiles.add(files[i]);
+			}
+		}
+
+		for(int i = 0; i < rcdFiles.size(); i++) {
+
+
+			while((line = br.readLine()) != null) {
+				Long[] items =
+			}
+		}
 
 
 
@@ -69,7 +91,9 @@ public class CalculateSales {
 			while((line = br.readLine()) != null) {
 				// ※ここの読み込み処理を変更してください。(処理内容1-2)
 				System.out.println(line);
+				// カンマで区切り、itemsに格納
 				String[] items = line.split(",");
+				// 支店定義ファイル、売上ファイルに値を格納
 				branchNames.put(items[0], items[1]);
 				branchSales.put(items[0], (long)0);
 			}
