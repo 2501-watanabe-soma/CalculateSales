@@ -43,20 +43,33 @@ public class CalculateSales {
 		// ファイルパスを指定、格納
 		File[] files = new File("C:\\Users\\trainee0963\\売上集計課題").listFiles();
 		List<File> rcdFiles = new ArrayList<>();
-		//
+		//ファルダ内の売上ファイルの判定、格納
 		for(int i = 0; i < files.length; i++) {
 			String fileName = files[i].getName();
-			// ファイル名が一致するかの可否、格納
+			// 売上ファイル名が一致するかの可否、格納
 			if(fileName.matches("[0-9]{8}.rcd+")) {
 				rcdFiles.add(files[i]);
-			}
-		}
 
-		for(int i = 0; i < rcdFiles.size(); i++) {
+				// ファイル数分データを読み込む
+				try {
+					for(int k = 0; k < rcdFiles.size(); k++) {
+						File file = rcdFiles.get(k);
+						FileReader fr = new FileReader(file);
+						br = new BufferedReader(fr);
 
+						String line;
+						List<String> sale = new ArrayList<>();
+						while((line = br.readLine()) != null) {
+							sale.add(line);
+						}
+						long fileSale = Long.parseLong(sale.get(1));
 
-			while((line = br.readLine()) != null) {
-				Long[] items =
+						Long saleAmount = branchSales.get(sale.get(1)) + fileSale;
+						branchSales.put(sale.get(0), saleAmount);
+					}
+				} catch(IOException e) {
+					System.out.println(UNKNOWN_ERROR);
+				}
 			}
 		}
 
