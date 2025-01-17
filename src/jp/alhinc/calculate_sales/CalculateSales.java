@@ -1,8 +1,10 @@
 package jp.alhinc.calculate_sales;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,29 +51,33 @@ public class CalculateSales {
 			// 売上ファイル名が一致するかの可否、格納
 			if(fileName.matches("[0-9]{8}.rcd+")) {
 				rcdFiles.add(files[i]);
-
-				// ファイル数分データを読み込む
-				try {
-					for(int k = 0; k < rcdFiles.size(); k++) {
-						File file = rcdFiles.get(k);
-						FileReader fr = new FileReader(file);
-						br = new BufferedReader(fr);
-
-						String line;
-						List<String> sale = new ArrayList<>();
-						while((line = br.readLine()) != null) {
-							sale.add(line);
-						}
-						long fileSale = Long.parseLong(sale.get(1));
-
-						Long saleAmount = branchSales.get(sale.get(1)) + fileSale;
-						branchSales.put(sale.get(0), saleAmount);
-					}
-				} catch(IOException e) {
-					System.out.println(UNKNOWN_ERROR);
-				}
 			}
 		}
+
+			// ファイル数分データを読み込む
+			try {
+
+				for(int k = 0; k < rcdFiles.size(); k++) {
+					List<String> sale = new ArrayList<>();
+
+					File file = rcdFiles.get(k);
+					FileReader fr = new FileReader(file);
+					br = new BufferedReader(fr);
+
+					// 売上額の加算、格納
+					String line;
+					while((line = br.readLine()) != null) {
+						sale.add(line);
+					}
+					long fileSale = Long.parseLong(sale.get(1));
+	                Long saleAmount = branchSales.get(sale.get(0)) + fileSale;
+					branchSales.put(sale.get(0), saleAmount);
+				}
+
+
+			} catch(IOException e) {
+				System.out.println(UNKNOWN_ERROR);
+			}
 
 
 
@@ -140,6 +146,33 @@ public class CalculateSales {
 	 */
 	private static boolean writeFile(String path, String fileName, Map<String, String> branchNames, Map<String, Long> branchSales) {
 		// ※ここに書き込み処理を作成してください。(処理内容3-1)
+		BufferedWriter bw = null;
+
+		try {
+			File file = new File(path, fileName);
+			FileWriter fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+
+			// ファイル作成、書き込み
+			for (String key : branchNames.keySet()) {
+				bw.write(key + "," + branchNames.get(key) + "," + branchSales.get(key));
+				bw.newLine();
+			}
+		} catch(IOException e) {
+			System.out.println(UNKNOWN_ERROR);
+			return false;
+		} finally {
+			// ファイルを開いている場合
+			if(bw != null) {
+				try {
+					// ファイルを閉じる
+					bw.close();
+				} catch(IOException e) {
+					System.out.println(UNKNOWN_ERROR);
+					return false;
+				}
+			}
+		}
 
 		return true;
 	}
