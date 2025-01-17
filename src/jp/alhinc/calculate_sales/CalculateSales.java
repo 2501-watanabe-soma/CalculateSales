@@ -75,6 +75,7 @@ public class CalculateSales {
 
 		} catch (IOException e) {
 			System.out.println(UNKNOWN_ERROR);
+			return;
 		} finally {
 			// ファイルを開いている場合
 			if (br != null) {
