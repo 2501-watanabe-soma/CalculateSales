@@ -68,7 +68,7 @@ public class CalculateSales {
 
 		// 売上ファイル名連番チェック(エラー処理2-1)
 		Collections.sort(rcdFiles);
-		for (int i = 0; i < rcdFiles.size() - 1; i++) {
+		for (int i = 0; i < rcdFiles.size() -1; i++) {
 			int former = Integer.parseInt(rcdFiles.get(i).getName().substring(0, 8));
 			int latter = Integer.parseInt(rcdFiles.get(i + 1).getName().substring(0, 8));
 
@@ -95,12 +95,13 @@ public class CalculateSales {
 
 				// 売上ファイルフォーマットチェック(エラー処理2-4)
 				if (sale.size() != 2) {
-					System.out.println("<" + file.getName() + ">" + SALESFILE_INVALID_FORMAT);
+					System.out.println(file.getName() + SALESFILE_INVALID_FORMAT);
+					return;
 				}
 
 				// 支店コードの存在チェック(エラー処理2-3)
 				if (!branchNames.containsKey(sale.get(0))) {
-					System.out.println("<" + rcdFiles.get(i).getName() + ">" + FILE_INVALID_CODE);
+					System.out.println(rcdFiles.get(i).getName() + FILE_INVALID_CODE);
 					return;
 				}
 
