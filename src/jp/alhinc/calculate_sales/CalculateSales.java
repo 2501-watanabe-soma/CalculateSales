@@ -158,10 +158,10 @@ public class CalculateSales {
 					try {
 						//ファイルを閉じる
 						br.close();
-						} catch (IOException e) {
-							System.out.println(UNKNOWN_ERROR);
-							return;
-						}
+					} catch (IOException e) {
+						System.out.println(UNKNOWN_ERROR);
+						return;
+					}
 				}
 			}
 		}
