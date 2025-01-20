@@ -35,6 +35,12 @@ public class CalculateSales {
 	 * @param コマンドライン引数
 	 */
 	public static void main(String[] args) {
+		// コマンドライン引数チェック(エラー処理3)
+		if (args.length != 1 ) {
+			System.out.println(UNKNOWN_ERROR);
+			return;
+		}
+
 		BufferedReader br = null;
 		// 支店コードと支店名を保持するMap
 		Map<String, String> branchNames = new HashMap<>();
@@ -54,8 +60,8 @@ public class CalculateSales {
 		//ファルダ内の売上ファイルの判定、格納
 		for (int i = 0; i < files.length; i++) {
 			String fileName = files[i].getName();
-			// 売上ファイル名が一致するかの可否、格納
-			if (fileName.matches("^[0-9]{8}.rcd$")) {
+			// ファイル判定、売上ファイル名一致チェック(エラー処理3)
+			if (files[i].isFile() && fileName.matches("^[0-9]{8}.rcd$")) {
 				rcdFiles.add(files[i]);
 			}
 		}
@@ -95,6 +101,12 @@ public class CalculateSales {
 				// 支店コードの存在チェック(エラー処理2-3)
 				if (!branchNames.containsKey(sale.get(0))) {
 					System.out.println("<" + rcdFiles.get(i).getName() + ">" + FILE_INVALID_CODE);
+					return;
+				}
+
+				// 売上金額が数字かチェック(エラー処理3)
+				if (!sale.get(1).matches("^[0-9]*$")) {
+					System.out.println(UNKNOWN_ERROR);
 					return;
 				}
 
