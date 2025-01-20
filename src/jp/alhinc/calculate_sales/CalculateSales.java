@@ -149,8 +149,8 @@ public class CalculateSales {
 				commoditySales.put(sale.get(1), commoditySaleAmount);
 
 			} catch (IOException e) {
-			System.out.println(UNKNOWN_ERROR);
-			return;
+				System.out.println(UNKNOWN_ERROR);
+				return;
 
 			} finally {
 				// ファイルを開いている場合
@@ -158,12 +158,12 @@ public class CalculateSales {
 					try {
 						//ファイルを閉じる
 						br.close();
-				    } catch (IOException e) {
-					    System.out.println(UNKNOWN_ERROR);
-					    return;
-					}
-			    }
-		    }
+						} catch (IOException e) {
+							System.out.println(UNKNOWN_ERROR);
+							return;
+						}
+				}
+			}
 		}
 
 		// 支店別集計ファイル書き込み処理
